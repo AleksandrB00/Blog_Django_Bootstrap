@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block carousel%}
+{% endblock %}
+
+
+{% block content %}
+<form class="form-create_post" method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 mt-3 font-weight-normal">Создание поста</h1>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="inputUsername">Заголовок</label>
+        {{ form.h1 }}
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="inputPassword">Описание</label>
+        {{ form.description }}
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="InputEmail">Текст</label>
+        {{ form.text }}
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="InputEmail">Изображение</label>
+        {{ form.image }}
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="InputEmail">URL</label>
+        {{ form.url }}
+    </div>
+    <button class="btn mt-2 btn-lg btn-primary btn-block" type="submit">Создать</button>
+</form>
+
+
+{% endblock %}

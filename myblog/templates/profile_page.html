@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block carousel%}
+{% endblock %}
+
+
+{% block content %}
+<form class="form-create_post" method="post" action="">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 mt-3 font-weight-normal">Редактировать профиль</h1>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="inputUsername">Ваше имя {{ user.username }}</label>
+        {{ form.username }}
+    </div>
+    <h1 class="h3 mb-3 mt-3 font-weight-normal">Изменеить пароль</h1>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="inputPassword">Введите пароль</label>
+        {{ form.password }}
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="ReInputPassword">Повторите пароль</label>
+        {{ form.confirm_password }}
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="InputEmail">Изображение</label>
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="InputEmail">URL</label>
+    </div>
+    <button class="btn mt-2 btn-lg btn-primary btn-block" type="submit">Создать</button>
+</form>
+{% endblock %}

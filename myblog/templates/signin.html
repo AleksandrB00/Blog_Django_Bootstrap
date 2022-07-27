@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="text-center">
+                <div class="alert alert-danger">
+                    <strong></strong>
+                </div> 
+                
+                <div class="alert alert-danger">
+                    <strong></strong>
+                </div>
+        <form class="form-signin" method="post" action="">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 mt-3 font-weight-normal">Укажите имя пользователя и пароль</h1>
+            <div class="col-md-4 mb-3 mx-auto">
+                <label for="inputUsername">Имя пользователя</label>
+                {{ form.username }}
+            </div>
+            <div class="col-md-4 mb-3 mx-auto">
+                <label for="inputPassword">Пароль</label>
+                {{ form.password }}
+            </div>
+            </div>
+            <button class="btn mt-2 btn-lg btn-primary btn-block" type="submit">Войти</button>
+        </form>
+    </div>
+{% endblock %}

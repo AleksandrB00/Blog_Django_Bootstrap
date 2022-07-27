@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="text-center">
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+        <form class="form-signin" method="post" action="">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 mt-3 font-weight-normal">Для регистрации укажите имя пользователя и пароль</h1>
+            <div class="col-md-4 mb-3 mx-auto">
+                <label for="inputUsername">Имя пользователя</label>
+                {{ form.username }}
+            </div>
+           <div class="col-md-4 mb-3 mx-auto">
+                <label for="inputFirstName">Ваше имя</label>
+                {{ form.first_name }}
+            </div>
+            <div class="col-md-4 mb-3 mx-auto">
+                <label for="inputLastName">Ваша фамилия</label>
+                {{ form.last_name }}
+            </div>
+            <div class="col-md-4 mb-3 mx-auto">
+                <label for="inputPassword">Пароль</label>
+                {{ form.password }}
+            </div>
+            <div class="col-md-4 mb-3 mx-auto">
+                <label for="ReInputPassword">Повторите пароль</label>
+                {{ form.confirm_password }}
+            </div>
+            <div class="col-md-4 mb-3 mx-auto">
+                <label for="InputEmail">Введите email</label>
+                {{ form.email }}
+            </div>
+            <button class="btn mt-2 btn-lg btn-primary btn-block" type="submit">Регистрация</button>
+        </form>
+    </div>
+{% endblock %}
