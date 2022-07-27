@@ -7,6 +7,8 @@ from .models import *
 from .forms import *
 from django.contrib.auth import login
 from django.db.models import Q
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
 
 
 class MainPageView(View):
@@ -155,3 +157,35 @@ class SearchView(View):
                 'results' : page_obj,
                 'count' : pagination.count
             })
+
+
+class FeedBackView(View):
+    def get(self, request):
+        form = FeedBackForm()
+        return render(request, 'contact.html', context={
+            'form': form,
+            'title': 'Написать мне'
+        })
+
+    def post(self, request):
+        form = FeedBackForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            from_email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(f'От {name} | {subject} | {from_email}', message, from_email, ['babaev_aleksandr@icloud.com'])
+            except BadHeaderError:
+                return HttpResponse('Невалидный заголовок')
+            return HttpResponseRedirect('success')
+        return render(request, 'contact.html', context={
+            'form': form,
+        })
+
+
+class SuccessView(View):
+    def get(self, request):
+        return render(request, 'success.html', context={
+            'title': 'Спасибо'
+        })

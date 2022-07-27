@@ -13,4 +13,6 @@ urlpatterns = [
     path('blog/<slug>', PostPageView.as_view(), name='post_detail'),
     path('profile_page', EditProfileView.as_view(), name='profile_page'),
     path('search', SearchView.as_view(), name='search_results'),
+    path('contact/', FeedBackView.as_view(), name='contact'),
+    path('contact/success/', SuccessView.as_view(), name='success'),
 ]
