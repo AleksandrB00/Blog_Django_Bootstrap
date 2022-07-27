@@ -13,12 +13,11 @@
     {% csrf_token %}
     <h1 class="h3 mb-3 mt-3 font-weight-normal">Редактировать профиль</h1>
     <div class="col-md-4 mb-3 mx-auto">
-        <label for="inputUsername">Ваше имя {{ user.username }}</label>
+        <label for="inputUsername">Изменить ник {{ user.username }}</label>
         {{ form.username }}
     </div>
-    <h1 class="h3 mb-3 mt-3 font-weight-normal">Изменеить пароль</h1>
     <div class="col-md-4 mb-3 mx-auto">
-        <label for="inputPassword">Введите пароль</label>
+        <label for="inputPassword">Новый пароль</label>
         {{ form.password }}
     </div>
     <div class="col-md-4 mb-3 mx-auto">
@@ -26,10 +25,16 @@
         {{ form.confirm_password }}
     </div>
     <div class="col-md-4 mb-3 mx-auto">
-        <label for="InputEmail">Изображение</label>
+        <label for="inputFirstName">Изменить имя {{ user.first_name }}</label>
+        {{ form.first_name }}
     </div>
     <div class="col-md-4 mb-3 mx-auto">
-        <label for="InputEmail">URL</label>
+        <label for="inputLastName">Изменить фамилию {{ user.last_name }}</label>
+        {{ form.last_name }}
+    </div>
+    <div class="col-md-4 mb-3 mx-auto">
+        <label for="InputEmail">Изменить email {{ user.email }}</label>
+        {{ form.email }}
     </div>
     <button class="btn mt-2 btn-lg btn-primary btn-block" type="submit">Создать</button>
 </form>

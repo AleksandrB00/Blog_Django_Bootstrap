@@ -14,3 +14,16 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.h1
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.text

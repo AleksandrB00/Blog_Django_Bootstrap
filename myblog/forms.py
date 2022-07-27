@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from .models import Post
+from .models import Post, Comment
 
 
 class SignUpForm(forms.Form):
@@ -106,3 +106,76 @@ class CreatePostForm(forms.ModelForm):
             'h1' : forms.TextInput(attrs={'class' : "form-input"}),
             'text' : forms.Textarea(attrs={'column' : 60, 'rows' : 10}),
         } 
+
+class EditProfileForm(forms.Form):
+    
+    username = forms.CharField(
+        max_length=50,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class' : "form-control",
+            'id' : "inputUsername"
+        })
+    )
+    
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'class' : "form-control",
+            'id' : "inputPassword"
+        })
+    )
+
+    confirm_password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'class' : "form-control",
+            'id' : "ReInputPassword"
+        })
+    )
+
+    email = forms.CharField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class' : "form-control",
+            'id' : "InputEmail"
+        })
+    )
+
+    first_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class' : "form-control",
+            'id' : "InputFirst_name"
+        })
+    )
+
+    last_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class' : "form-control",
+            'id' : "InputLast_name"
+        })
+    )
+    
+    def clean(self):
+        password = self.cleaned_data['password']
+        confirm_password = self.cleaned_data['confirm_password']
+
+        if password != confirm_password:
+            raise forms.ValidationError(
+                'Пароли не совпадают'
+            )
+
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        widgets = {
+            'text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3
+            }),
+        }
