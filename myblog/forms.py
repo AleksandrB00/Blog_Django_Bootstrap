@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-
+from .models import Post
 
 
 class SignUpForm(forms.Form):
@@ -95,3 +95,14 @@ class SignInForm(forms.Form):
             'id' : "inputPassword"
         })
     )
+
+
+class CreatePostForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ['h1', 'text', 'image',]
+        widgets = {
+            'h1' : forms.TextInput(attrs={'class' : "form-input"}),
+            'text' : forms.Textarea(attrs={'column' : 60, 'rows' : 10}),
+        } 

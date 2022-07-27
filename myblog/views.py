@@ -57,3 +57,23 @@ class SignInView(View):
         return render(request, 'signin.html', context={
             'form' : form
         })
+
+
+class CreatePostView(View):
+
+    def get(self, request):
+        form = CreatePostForm()
+        return render(request, 'create_post.html', context={
+            'form' : form
+        })
+
+    def post(self, request):
+        form = CreatePostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return HttpResponseRedirect('/')
+        raise ValidationError(
+            'Error'
+        )
