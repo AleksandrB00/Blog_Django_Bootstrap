@@ -9,6 +9,7 @@ from django.contrib.auth import login
 from django.db.models import Q
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
+from taggit.models import Tag
 
 
 class MainPageView(View):
@@ -189,3 +190,15 @@ class SuccessView(View):
         return render(request, 'success.html', context={
             'title': 'Спасибо'
         })
+
+
+class TagView(View):
+    def get(self, request, slug):
+        tag = get_object_or_404(Tag, slug=slug)
+        posts = Post.objects.filter(tag=tag)
+        common_tags = Post.tag.most_common()
+        return render(request, 'tag.html', context={
+            'title': f'#ТЕГ {tag}',
+            'posts': posts,
+            'common_tags': common_tags
+        })  

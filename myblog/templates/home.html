@@ -19,6 +19,9 @@
                 <img src="{{ post.image.url }}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h4 class="card-title">{{ post.h1 }}</h4>
+                    {% for tag in post.tag.all %}
+                  <a href="{% url 'tag' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                    {% endfor %}
                     <p class="card-text">{{ post.author.first_name }} {{ post.author.last_name }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">

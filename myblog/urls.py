@@ -15,4 +15,5 @@ urlpatterns = [
     path('search', SearchView.as_view(), name='search_results'),
     path('contact/', FeedBackView.as_view(), name='contact'),
     path('contact/success/', SuccessView.as_view(), name='success'),
+    path('tag/<slug>/', TagView.as_view(), name="tag"),
 ]
