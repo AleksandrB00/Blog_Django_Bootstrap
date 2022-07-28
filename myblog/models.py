@@ -1,10 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+
 from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
+    """
+   Модель поста.
+    
+    """
 
     h1 = models.CharField(max_length=100)
     text = models.TextField()
@@ -19,6 +24,11 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """
+   Модель комментария. Сортируется от ранних к поздним.
+    
+    """
+
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     text = models.TextField()

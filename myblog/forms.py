@@ -5,7 +5,11 @@ from .models import Post, Comment
 
 
 class SignUpForm(forms.Form):
+    """
+    Форма регистрации, метод clean выполняет проверку поля пароля и его подтверждения, в случае не совпадения вызывает ошибкую
+    Метод save сохраняет поля формы и провожит аутентификацию пользователя.
 
+    """
     username = forms.CharField(
         max_length=50,
         required=True,
@@ -98,6 +102,10 @@ class SignInForm(forms.Form):
 
 
 class CreatePostForm(forms.ModelForm):
+    """
+    Форма создания поста. Наследуется от модели Post.
+    
+    """
 
     class Meta:
         model = Post
@@ -108,6 +116,10 @@ class CreatePostForm(forms.ModelForm):
         } 
 
 class EditProfileForm(forms.Form):
+    """
+    Форма редактирования профиля. Метод clean выполняет проверку пароля и его подтверждения, в случае несовпадения вызывает ошибку.
+    
+    """
     
     username = forms.CharField(
         max_length=50,
@@ -169,6 +181,10 @@ class EditProfileForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
+    """
+    Форма для комментариев, напследуется от модели Comment.
+    
+    """
 
     class Meta:
         model = Comment
@@ -182,6 +198,11 @@ class CommentForm(forms.ModelForm):
 
 
 class FeedBackForm(forms.Form):
+    """
+    Форма для обратной связи.
+    
+    """
+    
     name = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={

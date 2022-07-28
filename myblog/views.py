@@ -9,10 +9,16 @@ from django.contrib.auth import login
 from django.db.models import Q
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
+
 from taggit.models import Tag
 
 
 class MainPageView(View):
+    """
+   Представление главной страницы сайта.
+   Метод get рендерит страницу home.html и выводит посты от старых к более новым по 6 постов на страницу.
+    
+    """
 
     def get(self, request):
         posts = Post.objects.filter(post_date__lte=timezone.now()).order_by('-post_date')
@@ -24,14 +30,22 @@ class MainPageView(View):
          })
 
 class PostPageView(View):
+    """
+   Представление страницы поста.
+   Метод get рендерит страницу post_detail.html и выводит саму страницу поста, форму комментариев, 3 последних поста, все тэги.
+   Метод Post принимает текст введённый в форму комментария и сохраняет её.
+    
+    """
     def get(self, request, slug):
         post = get_object_or_404(Post, slug=slug)
-        last_posts = Post.objects.all().order_by('-id')[:5]
+        common_tags = Post.tag.most_common()
+        last_posts = Post.objects.all().order_by('-id')[:3]
         comment_form = CommentForm()
         return render(request, 'post_detail.html', context={
             'post': post,
             'last_posts': last_posts,
-            'comment_form': comment_form
+            'comment_form': comment_form,
+            'common_tags' : common_tags
     })
 
     def post(self, request, slug, *args, **kwargs):
@@ -49,7 +63,13 @@ class PostPageView(View):
 
 
 class SignUpView(View):
-
+    """
+   Представление страницы регистрации.
+   Метод get рендерит страницу signup.html и выводит пустую форму.
+   Метод post проверяет валидность формы и в случае True создаёт нового пользователя, логинит его и перенаправляет на главную страницу,
+   в случае False очищает поля формы и выводи сообщение об ошибке.
+    
+    """
     def get(self, request):
         form = SignUpForm()
         return render(request, 'signup.html', context={
@@ -69,7 +89,13 @@ class SignUpView(View):
 
 
 class SignInView(View):
-
+    """
+   Представление страницы входа.
+   Метод get рендерит страницу signin.html и выводит пустую форму.
+   Метод post проверяет валидность формы и в случае True логинит пользователя и перенаправляет на главную страницу,
+   в случае False очищает поля формы.
+    
+    """
     def get(self, request):
         form = SignInForm()
         return render(request, 'signin.html', context={
@@ -92,7 +118,13 @@ class SignInView(View):
 
 
 class CreatePostView(View):
-
+    """
+   Представление страницы создания поста.
+   Метод get рендерит страницу create_post.html и выводит пустую форму.
+   Метод post проверяет валидность формы и в случае True формирует slug адрес разбивая заголовок поста символом '-' ,
+   сохраняет в базу и перенаправляет на главную страницу,в случае False очищает поля формы.
+   
+    """
     def get(self, request):
         form = CreatePostForm()
         return render(request, 'create_post.html', context={
@@ -114,7 +146,13 @@ class CreatePostView(View):
 
 
 class EditProfileView(View):
-    
+    """
+   Представление страницы редактирования профиля.
+   Метод get рендерит страницу profile_page.html и выводит пустую форму.
+   Метод post проверяет валидность формы и в случае True изменяет данные пользователя, разлогинивает его и перенаправляет на главную страницу,
+   в случае False очищает поля формы.
+   
+    """ 
     def get(self, request):
         form = EditProfileForm()
         return render(request, 'profile_page.html', context={
@@ -142,7 +180,12 @@ class EditProfileView(View):
         )
 
 class SearchView(View):
-
+    """
+   Представление страницы поиска.
+   Метод get выполняет поиск согласно запросу по базе постов в заголовках и содержанию статей, 
+   затем рендерит страницу search.html выводя по 3 поста на страницу.
+   
+    """
     def get(self, request):
         query = request.GET.get('q')
         results= ''
@@ -161,6 +204,13 @@ class SearchView(View):
 
 
 class FeedBackView(View):
+    """
+   Представление страницы обратной связи.
+   Метод get рендерит страницу profile_page.html и выводит пустую форму.
+   Метод post проверяет валидность формы и в случае True отправляет письмо с содержанием полей формы на указанный адрес и перенаправляет на страницу "спасибо",
+   в случае False выводит сообщение об ошибке и очищает поля формы.
+
+    """
     def get(self, request):
         form = FeedBackForm()
         return render(request, 'contact.html', context={
@@ -186,6 +236,11 @@ class FeedBackView(View):
 
 
 class SuccessView(View):
+    """
+   Представление страницы "спасибо".
+   Метод get рендерит страницу success.html.
+
+    """
     def get(self, request):
         return render(request, 'success.html', context={
             'title': 'Спасибо'
@@ -193,6 +248,11 @@ class SuccessView(View):
 
 
 class TagView(View):
+    """
+   Представление страницы тэгов.
+   Метод get рендерит страницу tag.html и выводит все имеющиеся тэги, а также все посты в соответствии с выбранным тэгом.
+
+    """
     def get(self, request, slug):
         tag = get_object_or_404(Tag, slug=slug)
         posts = Post.objects.filter(tag=tag)
