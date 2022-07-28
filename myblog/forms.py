@@ -106,7 +106,7 @@ class SignInForm(forms.Form):
 
 class CreatePostForm(forms.ModelForm):
     """
-    Форма создания поста. Наследуется от модели Post.
+    Форма создания поста. Связана с моделью Post.
     
     """
 
@@ -185,7 +185,7 @@ class EditProfileForm(forms.Form):
 
 class CommentForm(forms.ModelForm):
     """
-    Форма для комментариев, напследуется от модели Comment.
+    Форма для комментариев, связана с моделью Comment.
     
     """
 
