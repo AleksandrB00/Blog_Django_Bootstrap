@@ -48,7 +48,7 @@ class PostPageView(View):
             'common_tags' : common_tags
     })
 
-    def post(self, request, slug, *args, **kwargs):
+    def post(self, request, slug):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             text = request.POST['text']

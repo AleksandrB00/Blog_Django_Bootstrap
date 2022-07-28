@@ -82,6 +82,10 @@ class SignUpForm(forms.Form):
 
 
 class SignInForm(forms.Form):
+    """
+    Форма входа.
+
+    """
 
     username = forms.CharField(
         max_length=50,
@@ -99,7 +103,6 @@ class SignInForm(forms.Form):
             'id' : "inputPassword"
         })
     )
-
 
 class CreatePostForm(forms.ModelForm):
     """
